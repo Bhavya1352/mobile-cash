@@ -2,7 +2,6 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import MobileLayout from '@/components/MobileLayout';
 import { ArrowUpRight, ArrowDownLeft, CreditCard, MoreVertical, Eye, EyeOff } from 'lucide-react';
 import userAvatar from '@/assets/user-avatar.png';
 
@@ -56,116 +55,114 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <MobileLayout>
-      <div className="h-full bg-background">
-        {/* Header Section with Gradient */}
-        <div className="gradient-primary px-6 pt-12 pb-8 rounded-b-3xl">
-          {/* User Header */}
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center space-x-3">
-              <img 
-                src={userAvatar} 
-                alt="User Profile" 
-                className="w-12 h-12 rounded-full border-2 border-white/20"
-              />
-              <div>
-                <p className="text-white/80 text-sm">Good morning</p>
-                <h2 className="text-white text-xl font-semibold">Alex Johnson</h2>
-              </div>
+    <div className="h-full bg-background">
+      {/* Header Section with Gradient */}
+      <div className="gradient-primary px-6 pt-12 pb-8 rounded-b-3xl">
+        {/* User Header */}
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center space-x-3">
+            <img 
+              src={userAvatar} 
+              alt="User Profile" 
+              className="w-12 h-12 rounded-full border-2 border-white/20"
+            />
+            <div>
+              <p className="text-white/80 text-sm">Good morning</p>
+              <h2 className="text-white text-xl font-semibold">Alex Johnson</h2>
             </div>
-            <Button variant="banking-ghost" size="icon" className="text-white hover:bg-white/20">
-              <MoreVertical />
-            </Button>
           </div>
-
-          {/* Balance Card */}
-          <Card className="gradient-card border-0 shadow-lg">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-2">
-                <p className="text-muted-foreground text-sm">Current Balance</p>
-                <Button
-                  variant="ghost"
-                  size="icon-sm"
-                  onClick={() => setShowBalance(!showBalance)}
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  {showBalance ? <Eye size={16} /> : <EyeOff size={16} />}
-                </Button>
-              </div>
-              <p className="text-3xl font-bold text-foreground">
-                {showBalance ? `$${balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}` : '••••••'}
-              </p>
-              <p className="text-success text-sm mt-1">+12.5% from last month</p>
-            </div>
-          </Card>
+          <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
+            <MoreVertical />
+          </Button>
         </div>
 
-        {/* Quick Actions */}
-        <div className="px-6 -mt-4 mb-6">
-          <div className="grid grid-cols-3 gap-4">
-            <Button variant="banking-outline" className="flex-col h-20 space-y-2" size="lg">
-              <ArrowUpRight size={24} />
-              <span className="text-xs">Send</span>
-            </Button>
-            <Button variant="banking-outline" className="flex-col h-20 space-y-2" size="lg">
-              <ArrowDownLeft size={24} />
-              <span className="text-xs">Receive</span>
-            </Button>
-            <Button variant="banking-outline" className="flex-col h-20 space-y-2" size="lg">
-              <CreditCard size={24} />
-              <span className="text-xs">Pay</span>
-            </Button>
-          </div>
-        </div>
-
-        {/* Recent Transactions */}
-        <div className="px-6 pb-8">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-foreground">Recent Transactions</h3>
-            <Button variant="banking-ghost" className="text-primary text-sm">
-              View All
-            </Button>
-          </div>
-
-          <div className="space-y-3">
-            {transactions.map((transaction) => (
-              <div
-                key={transaction.id}
-                onClick={() => handleTransactionClick(transaction.id)}
-                className="transaction-item cursor-pointer"
+        {/* Balance Card */}
+        <Card className="gradient-card border-0 shadow-lg">
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-2">
+              <p className="text-muted-foreground text-sm">Current Balance</p>
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                onClick={() => setShowBalance(!showBalance)}
+                className="text-muted-foreground hover:text-foreground"
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                      transaction.type === 'received' 
-                        ? 'bg-success/10 text-success' 
-                        : 'bg-destructive/10 text-destructive'
-                    }`}>
-                      {transaction.type === 'received' ? 
-                        <ArrowDownLeft size={18} /> : 
-                        <ArrowUpRight size={18} />
-                      }
-                    </div>
-                    <div>
-                      <p className="font-medium text-foreground">{transaction.recipient}</p>
-                      <p className="text-sm text-muted-foreground">{transaction.date} • {transaction.time}</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className={`font-semibold ${
-                      transaction.amount > 0 ? 'text-success' : 'text-foreground'
-                    }`}>
-                      {transaction.amount > 0 ? '+' : ''}${Math.abs(transaction.amount).toFixed(2)}
-                    </p>
-                    <p className="text-xs text-muted-foreground">{transaction.category}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
+                {showBalance ? <Eye size={16} /> : <EyeOff size={16} />}
+              </Button>
+            </div>
+            <p className="text-3xl font-bold text-foreground">
+              {showBalance ? `${balance.toLocaleString('en-US', { minimumFractionDigits: 2 })}` : '••••••'}
+            </p>
+            <p className="text-success text-sm mt-1">+12.5% from last month</p>
           </div>
+        </Card>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="px-6 -mt-4 mb-6">
+        <div className="grid grid-cols-3 gap-4">
+          <Button variant="outline" className="flex-col h-20 space-y-2" size="lg">
+            <ArrowUpRight size={24} />
+            <span className="text-xs">Send</span>
+          </Button>
+          <Button variant="outline" className="flex-col h-20 space-y-2" size="lg">
+            <ArrowDownLeft size={24} />
+            <span className="text-xs">Receive</span>
+          </Button>
+          <Button variant="outline" className="flex-col h-20 space-y-2" size="lg">
+            <CreditCard size={24} />
+            <span className="text-xs">Pay</span>
+          </Button>
         </div>
       </div>
-    </MobileLayout>
+
+      {/* Recent Transactions */}
+      <div className="px-6 pb-8">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold text-foreground">Recent Transactions</h3>
+          <Button variant="ghost" className="text-primary text-sm">
+            View All
+          </Button>
+        </div>
+
+        <div className="space-y-3">
+          {transactions.map((transaction) => (
+            <div
+              key={transaction.id}
+              onClick={() => handleTransactionClick(transaction.id)}
+              className="transaction-item cursor-pointer"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                    transaction.type === 'received' 
+                      ? 'bg-success/10 text-success' 
+                      : 'bg-destructive/10 text-destructive'
+                  }`}>
+                    {transaction.type === 'received' ? 
+                      <ArrowDownLeft size={18} /> : 
+                      <ArrowUpRight size={18} />
+                    }
+                  </div>
+                  <div>
+                    <p className="font-medium text-foreground">{transaction.recipient}</p>
+                    <p className="text-sm text-muted-foreground">{transaction.date} • {transaction.time}</p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className={`font-semibold ${
+                    transaction.amount > 0 ? 'text-success' : 'text-foreground'
+                  }`}>
+                    {transaction.amount > 0 ? '+' : ''}${Math.abs(transaction.amount).toFixed(2)}
+                  </p>
+                  <p className="text-xs text-muted-foreground">{transaction.category}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
 

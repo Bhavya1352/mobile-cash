@@ -7,6 +7,8 @@ import Onboarding from "./pages/Onboarding";
 import Dashboard from "./pages/Dashboard";
 import TransactionDetails from "./pages/TransactionDetails";
 import NotFound from "./pages/NotFound";
+import Index from "./pages/Index";
+import MobileLayout from "./components/MobileLayout";
 
 const queryClient = new QueryClient();
 
@@ -16,14 +18,17 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Onboarding />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/transaction/:id" element={<TransactionDetails />} />
-          <Route path="/login" element={<Onboarding />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <MobileLayout>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/onboarding" element={<Onboarding />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/transaction/:id" element={<TransactionDetails />} />
+            <Route path="/login" element={<Index />} />
+            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </MobileLayout>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

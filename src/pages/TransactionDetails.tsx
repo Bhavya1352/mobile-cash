@@ -2,7 +2,6 @@ import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import MobileLayout from '@/components/MobileLayout';
 import { ArrowLeft, ArrowUpRight, ArrowDownLeft, Copy, Share, Receipt } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
@@ -99,153 +98,149 @@ const TransactionDetails: React.FC = () => {
 
   if (!transaction) {
     return (
-      <MobileLayout>
-        <div className="h-full flex items-center justify-center">
-          <div className="text-center">
-            <h2 className="text-xl font-semibold mb-2">Transaction Not Found</h2>
-            <p className="text-muted-foreground mb-4">The requested transaction could not be found.</p>
-            <Button onClick={() => navigate('/dashboard')} variant="banking">
-              Back to Dashboard
-            </Button>
-          </div>
+      <div className="h-full flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold mb-2">Transaction Not Found</h2>
+          <p className="text-muted-foreground mb-4">The requested transaction could not be found.</p>
+          <Button onClick={() => navigate('/dashboard')} variant="default">
+            Back to Dashboard
+          </Button>
         </div>
-      </MobileLayout>
+      </div>
     );
   }
 
   return (
-    <MobileLayout>
-      <div className="h-full bg-background">
-        {/* Header */}
-        <div className="gradient-primary px-6 pt-12 pb-8 rounded-b-3xl">
-          <div className="flex items-center justify-between mb-8">
-            <Button 
-              variant="banking-ghost" 
-              size="icon" 
-              onClick={() => navigate('/dashboard')}
-              className="text-white hover:bg-white/20"
-            >
-              <ArrowLeft />
-            </Button>
-            <h1 className="text-white text-lg font-semibold">Transaction Details</h1>
-            <Button 
-              variant="banking-ghost" 
-              size="icon"
-              onClick={handleShare}
-              className="text-white hover:bg-white/20"
-            >
-              <Share />
-            </Button>
-          </div>
-
-          {/* Transaction Status Card */}
-          <Card className="gradient-card border-0 shadow-lg">
-            <div className="p-6 text-center">
-              <div className={`w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center ${
-                transaction.type === 'received' 
-                  ? 'bg-success/10 text-success' 
-                  : 'bg-primary/10 text-primary'
-              }`}>
-                {transaction.type === 'received' ? 
-                  <ArrowDownLeft size={32} /> : 
-                  <ArrowUpRight size={32} />
-                }
-              </div>
-              <p className="text-2xl font-bold text-foreground mb-2">
-                {transaction.amount > 0 ? '+' : ''}${Math.abs(transaction.amount).toFixed(2)}
-              </p>
-              <p className="text-muted-foreground">
-                {transaction.type === 'received' ? 'Received from' : 'Sent to'} {transaction.recipient}
-              </p>
-              <div className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium mt-3 bg-success/10 text-success`}>
-                {transaction.status}
-              </div>
-            </div>
-          </Card>
+    <div className="h-full bg-background">
+      {/* Header */}
+      <div className="gradient-primary px-6 pt-12 pb-8 rounded-b-3xl">
+        <div className="flex items-center justify-between mb-8">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => navigate('/dashboard')}
+            className="text-white hover:bg-white/20"
+          >
+            <ArrowLeft />
+          </Button>
+          <h1 className="text-white text-lg font-semibold">Transaction Details</h1>
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={handleShare}
+            className="text-white hover:bg-white/20"
+          >
+            <Share />
+          </Button>
         </div>
 
-        {/* Transaction Details */}
-        <div className="px-6 -mt-4 pb-8">
-          <Card className="banking-card">
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Transaction ID</span>
-                <div className="flex items-center space-x-2">
-                  <span className="font-mono text-sm">{transaction.transactionId}</span>
-                  <Button 
-                    variant="ghost" 
-                    size="icon-sm"
-                    onClick={handleCopyTransactionId}
-                  >
-                    <Copy size={14} />
-                  </Button>
-                </div>
-              </div>
+        {/* Transaction Status Card */}
+        <Card className="gradient-card border-0 shadow-lg">
+          <div className="p-6 text-center">
+            <div className={`w-16 h-16 rounded-full mx-auto mb-4 flex items-center justify-center ${
+              transaction.type === 'received' 
+                ? 'bg-success/10 text-success' 
+                : 'bg-primary/10 text-primary'
+            }`}>
+              {transaction.type === 'received' ? 
+                <ArrowDownLeft size={32} /> : 
+                <ArrowUpRight size={32} />
+              }
+            </div>
+            <p className="text-2xl font-bold text-foreground mb-2">
+              {transaction.amount > 0 ? '+' : ''}${Math.abs(transaction.amount).toFixed(2)}
+            </p>
+            <p className="text-muted-foreground">
+              {transaction.type === 'received' ? 'Received from' : 'Sent to'} {transaction.recipient}
+            </p>
+            <div className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium mt-3 bg-success/10 text-success`}>
+              {transaction.status}
+            </div>
+          </div>
+        </Card>
+      </div>
 
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Date & Time</span>
-                <span className="font-medium">{transaction.date} at {transaction.time}</span>
-              </div>
-
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Account</span>
-                <span className="font-medium">{transaction.recipientAccount}</span>
-              </div>
-
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Category</span>
-                <span className="font-medium">{transaction.category}</span>
-              </div>
-
-              <div className="flex justify-between items-center">
-                <span className="text-muted-foreground">Description</span>
-                <span className="font-medium text-right max-w-[200px]">{transaction.description}</span>
-              </div>
-
-              {transaction.fee > 0 && (
-                <div className="flex justify-between items-center">
-                  <span className="text-muted-foreground">Transaction Fee</span>
-                  <span className="font-medium">${transaction.fee.toFixed(2)}</span>
-                </div>
-              )}
-
-              <hr className="border-border" />
-
-              <div className="flex justify-between items-center text-lg font-semibold">
-                <span>Total Amount</span>
-                <span className={transaction.amount > 0 ? 'text-success' : 'text-foreground'}>
-                  {transaction.amount > 0 ? '+' : ''}${Math.abs(transaction.amount).toFixed(2)}
-                </span>
+      {/* Transaction Details */}
+      <div className="px-6 -mt-4 pb-8">
+        <Card className="banking-card">
+          <div className="space-y-4">
+            <div className="flex justify-between items-center">
+              <span className="text-muted-foreground">Transaction ID</span>
+              <div className="flex items-center space-x-2">
+                <span className="font-mono text-sm">{transaction.transactionId}</span>
+                <Button 
+                  variant="ghost" 
+                  size="icon-sm"
+                  onClick={handleCopyTransactionId}
+                >
+                  <Copy size={14} />
+                </Button>
               </div>
             </div>
-          </Card>
 
-          {/* Action Buttons */}
-          <div className="mt-6 space-y-3">
+            <div className="flex justify-between items-center">
+              <span className="text-muted-foreground">Date & Time</span>
+              <span className="font-medium">{transaction.date} at {transaction.time}</span>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <span className="text-muted-foreground">Account</span>
+              <span className="font-medium">{transaction.recipientAccount}</span>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <span className="text-muted-foreground">Category</span>
+              <span className="font-medium">{transaction.category}</span>
+            </div>
+
+            <div className="flex justify-between items-center">
+              <span className="text-muted-foreground">Description</span>
+              <span className="font-medium text-right max-w-[200px]">{transaction.description}</span>
+            </div>
+
+            {transaction.fee > 0 && (
+              <div className="flex justify-between items-center">
+                <span className="text-muted-foreground">Transaction Fee</span>
+                <span className="font-medium">${transaction.fee.toFixed(2)}</span>
+              </div>
+            )}
+
+            <hr className="border-border" />
+
+            <div className="flex justify-between items-center text-lg font-semibold">
+              <span>Total Amount</span>
+              <span className={transaction.amount > 0 ? 'text-success' : 'text-foreground'}>
+                {transaction.amount > 0 ? '+' : ''}${Math.abs(transaction.amount).toFixed(2)}
+              </span>
+            </div>
+          </div>
+        </Card>
+
+        {/* Action Buttons */}
+        <div className="mt-6 space-y-3">
+          <Button 
+            variant="outline" 
+            size="lg" 
+            className="w-full"
+            onClick={handleDownloadReceipt}
+          >
+            <Receipt className="mr-2" size={18} />
+            Download Receipt
+          </Button>
+          
+          {transaction.type === 'sent' && (
             <Button 
-              variant="banking-outline" 
+              variant="secondary" 
               size="lg" 
               className="w-full"
-              onClick={handleDownloadReceipt}
+              onClick={() => toast({ title: "Repeat Transaction", description: "Feature coming soon!" })}
             >
-              <Receipt className="mr-2" size={18} />
-              Download Receipt
+              Repeat Transaction
             </Button>
-            
-            {transaction.type === 'sent' && (
-              <Button 
-                variant="banking-light" 
-                size="lg" 
-                className="w-full"
-                onClick={() => toast({ title: "Repeat Transaction", description: "Feature coming soon!" })}
-              >
-                Repeat Transaction
-              </Button>
-            )}
-          </div>
+          )}
         </div>
       </div>
-    </MobileLayout>
+    </div>
   );
 };
 
