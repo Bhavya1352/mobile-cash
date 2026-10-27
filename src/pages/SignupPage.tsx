@@ -10,7 +10,7 @@ import { User, Phone, Mail, Lock, Building } from 'lucide-react';
 const signupSchema = z.object({
   fullName: z.string().min(1, { message: 'Full name is required' }),
   phoneNumber: z.string().min(10, { message: 'Phone number must be at least 10 digits' }),
-  email: z.string().email({ message: 'Invalid email address' }),
+  email: z.email({ message: 'Invalid email address' }),
   password: z.string().min(6, { message: 'Password must be at least 6 characters' }),
   companyName: z.string().min(1, { message: 'Company name is required' }),
   agency: z.enum(['yes', 'no'], { errorMap: () => ({ message: 'Please select an option' }) }),

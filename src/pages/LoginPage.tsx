@@ -8,7 +8,7 @@ import { Input } from '../components/ui/input';
 import { Mail, Lock } from 'lucide-react';
 
 const loginSchema = z.object({
-  email: z.string().email({ message: 'Invalid email address' }),
+  email: z.email({ message: 'Invalid email address' }),
   password: z.string().min(6, { message: 'Password must be at least 6 characters' }),
 });
 
